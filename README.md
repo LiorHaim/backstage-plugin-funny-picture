@@ -99,21 +99,9 @@ This method packages the plugin into a container image and handles the build pro
                       icon: sentiment_very_satisfied
     ```
 
-## 5. Content Security Policy (CSP) Configuration
+## 3. Restart RHDH
 
-If the plugin loads but the image is blocked (CSP error), you need to update the `app-config.yaml` of your RHDH instance to whitelist the image source (`picsum.photos`).
-
-Add or update the `csp` section in your main `app-config.yaml` (or `app-config.local.yaml`):
-
-```yaml
-backend:
-  # ... other backend config
-  csp:
-    # Use specific domains for security, or '*' to allow all image sources
-    img-src: ["'self'", 'data:', '*']
-```
-
-This allows the frontend to load images from **any** external source (like `picsum.photos` or `avatars.dicebear.com`).
+Restart your Red Hat Developer Hub instance to apply the changes. The "Funny Picture" item should appear in the sidebar.
 
 ## 4. OCI Registry Authentication (Troubleshooting)
 
@@ -146,3 +134,18 @@ If the repository is private, you must configure an image pull secret in your Ku
     kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "my-quay-secret"}]}'
     ```
 
+## 5. Content Security Policy (CSP) Configuration
+
+If the plugin loads but the image is blocked (CSP error), you need to update the `app-config.yaml` of your RHDH instance to whitelist the image source (`picsum.photos`).
+
+Add or update the `csp` section in your main `app-config.yaml` (or `app-config.local.yaml`):
+
+```yaml
+backend:
+  # ... other backend config
+  csp:
+    # Use specific domains for security, or '*' to allow all image sources
+    img-src: ["'self'", 'data:', '*']
+```
+
+This allows the frontend to load images from **any** external source (like `picsum.photos` or `avatars.dicebear.com`).
